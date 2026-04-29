@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "./SideBar";
+import Sidebar from "./Sidebar";
 import Header from "./Header";
 import {
   ChevronRight,
