@@ -93,7 +93,7 @@ const GaugeCard = ({
 };
 
 // 2. Alarm Row Component
-const AlarmRow = ({ id, time, type, value, isSolved }: any) => (
+const AlarmRow = ({ time, type, value, isSolved }: any) => (
   <div className="flex items-center justify-between text-[16px] md:text-[18px] text-white/70 py-3 border-b border-gray-500/10 last:border-0">
     <div className="flex items-center gap-4">
       <img
