@@ -48,7 +48,7 @@ const GaugeCard = ({
             d="M 35 137.5 A 75 75 0 1 1 165 137.5"
             fill="none"
             stroke="#EAEAEA"
-            strokeWidth="20"
+            strokeWidth="16"
             strokeLinecap="round"
           />
 
@@ -57,7 +57,7 @@ const GaugeCard = ({
             d="M 35 137.5 A 75 75 0 1 1 165 137.5"
             fill="none"
             stroke={color}
-            strokeWidth="20"
+            strokeWidth="16"
             strokeLinecap="round"
             strokeDasharray={arcLength}
             strokeDashoffset={offset}
@@ -131,8 +131,8 @@ const OverviewPage: React.FC = () => {
       <main className="flex-1 flex flex-col w-full">
         <Header
           title="AIR QUALITY MONITORING AND CONTROL"
-          dateColor="text-[#0A7C56]"
-          bellColor="text-[#0A7C56]"
+          dateColor="text-white"
+          bellColor="text-white"
         />
 
         <div className="px-6 md:px-12 py-8 flex flex-col gap-10 max-w-[1440px] mx-auto w-full">
