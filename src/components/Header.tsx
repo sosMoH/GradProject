@@ -65,13 +65,13 @@ const Header: React.FC<HeaderProps> = ({
         </div>
 
         {/* Profile */}
-        <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-700 rounded-full overflow-hidden cursor-pointer">
+        {/* <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-700 rounded-full overflow-hidden cursor-pointer">
           <img
             src="/api/placeholder/50/50"
             alt="Profile"
             className="w-full h-full object-cover"
           />
-        </div>
+        </div> */}
       </div>
     </header>
   );

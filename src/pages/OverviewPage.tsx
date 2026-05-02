@@ -1,6 +1,6 @@
 import React from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
 import {
   ChevronRight,
   ChevronLeft,
@@ -126,9 +126,9 @@ const OverviewPage: React.FC = () => {
 
   return (
     // Responsive: column on mobile, row on desktop. Added pb-70 for mobile nav.
-    <div className="relative w-full min-h-screen bg-[#04070C] font-sans flex flex-col md:flex-row pb-[70px] md:pb-0 overflow-x-hidden">
+    <div className="relative w-full min-h-full bg-[#04070C] font-sans flex flex-col pb-[70px] md:pb-0 overflow-x-hidden">
       {/* Shared Sidebar Component - Set active to "overview" */}
-      <Sidebar activePage="overview" />
+      
 
       {/* Main Content Area - We use flex containers to force scaling */}
       <main className="flex-1 flex flex-col w-full">

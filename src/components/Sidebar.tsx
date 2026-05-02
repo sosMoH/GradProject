@@ -1,21 +1,20 @@
 import React from "react";
-import { LogOut } from "lucide-react";
-import { Link } from "react-router-dom"; // <-- Changed from useNavigate to Link
+// import { LogOut } from "lucide-react";
+import { Link, useLocation } from "react-router-dom"; // <-- Changed from useNavigate to Link
 
 import homeIcon from "../assets/home.png";
 import qaIcon from "../assets/qa.png";
-import aboutIcon from "../assets/about.png";
 import overviewIcon from "../assets/overview.png";
 
 interface SidebarProps {
-  activePage: "home" | "messages" | "info" | "overview";
+  activePage: "home" | "messages" | "overview";
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
+const Sidebar: React.FC<SidebarProps> = () => {
+  const location = useLocation(); // Gets the current URL path
   const navItems = [
     { id: "home", path: "/", icon: homeIcon },
-    { id: "messages", path: "/messages", icon: qaIcon },
-    { id: "info", path: "/info", icon: aboutIcon },
+    { id: "messages", path: "/FAQs", icon: qaIcon },
     { id: "overview", path: "/overview", icon: overviewIcon },
   ];
 
@@ -29,13 +28,13 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
       {/* Navigation */}
       <nav className="flex flex-row md:flex-col gap-4 md:gap-10 w-full flex-1 justify-around md:justify-center items-center md:mt-12">
         {navItems.map((item) => {
-          const isActive = item.id === activePage;
+          const isActive = location.pathname === item.path;
           return (
             /* We swapped the <div> for a <Link> to make routing foolproof */
             <Link
               key={item.id}
               to={item.path}
-              className="relative w-auto md:w-full flex justify-center items-center p-2 md:p-4 cursor-pointer hover:bg-white/5 transition-colors"
+              className="relative w-auto md:w-full flex justify-center items-center p-2 md:p-4 cursor-pointer  transition-colors"
             >
               {/* Active Indicator Line */}
               {isActive && (
@@ -54,10 +53,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
         })}
       </nav>
 
-      <LogOut
+      {/* <LogOut
         size={28}
         className="hidden md:block opacity-60 hover:opacity-100 cursor-pointer transition-opacity mb-4 text-white"
-      />
+      /> */}
     </aside>
   );
 };

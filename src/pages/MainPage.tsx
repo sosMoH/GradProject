@@ -1,6 +1,6 @@
 import React from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
 
 // Import Images
 // I will keep generic placeholders for now.
@@ -10,7 +10,7 @@ import deviceImage from "../assets/device.png";
 const MainPage: React.FC = () => {
   return (
     // Responsive: Column on mobile, Row on desktop
-    <div className="relative w-full h-screen bg-black overflow-hidden font-sans text-white flex flex-col md:flex-row pb-[70px] md:pb-0">
+    <div className="relative w-full h-full bg-black overflow-hidden font-sans text-white flex flex-col pb-[70px] md:pb-0">
       {/* Blurred Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-40 blur-[10px]"
@@ -18,7 +18,7 @@ const MainPage: React.FC = () => {
       />
 
       {/* Shared Sidebar Component - Set active to "home" */}
-      <Sidebar activePage="home" />
+      
 
       {/* Main Content Area */}
       <main className="relative z-10 flex-1 flex flex-col h-full overflow-y-auto md:overflow-hidden pb-[70px] md:pb-0">
