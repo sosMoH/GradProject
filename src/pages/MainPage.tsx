@@ -17,9 +17,6 @@ const MainPage: React.FC = () => {
         style={{ backgroundImage: `url(${bgImage})` }}
       />
 
-      {/* Shared Sidebar Component - Set active to "home" */}
-      
-
       {/* Main Content Area */}
       <main className="relative z-10 flex-1 flex flex-col h-full overflow-y-auto md:overflow-hidden pb-[70px] md:pb-0">
         {/* Shared Header Component */}

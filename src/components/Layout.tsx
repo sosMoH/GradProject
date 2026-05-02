@@ -4,17 +4,14 @@ import Sidebar from "./Sidebar";
 
 const Layout: React.FC = () => {
   return (
-    // 1. The main wrapper is fixed to the exact height of the screen (h-screen)
-    // 2. overflow-hidden prevents the whole browser window from scrolling
-    <div className="flex h-screen w-full bg-[#04070C] overflow-hidden">
+    <div className="flex flex-col md:flex-row h-screen w-full bg-[#04070C] overflow-hidden">
       
-      {/* 3. The Sidebar sits on the left. It will never scroll. */}
+      {/* 1. The Sidebar (Handles its own mobile fixed positioning) */}
       <Sidebar />
 
-      {/* 4. The main content area takes up the remaining space (flex-1) */}
-      {/* 5. overflow-y-auto allows ONLY this right side to scroll if content gets long */}
-      <div className="flex-1 h-full overflow-y-auto relative">
-        {/* <Outlet /> is where React Router inserts your specific pages */}
+      {/* 2. Main content area */}
+      {/* Added pb-[70px] on mobile so you can scroll to the very bottom above the navbar */}
+      <div className="flex-1 h-full overflow-y-auto relative pb-[70px] md:pb-0">
         <Outlet />
       </div>
 

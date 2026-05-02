@@ -8,7 +8,7 @@ interface HeaderProps {
   bellColor?: string; 
 }
 
-const getFormattedDate = (): string => {
+export const getFormattedDate = (): string => {
   const date = new Date();
   const day = date.getDate();
   const month = date.toLocaleDateString("en-US", { month: "long" });
