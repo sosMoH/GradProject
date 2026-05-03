@@ -10,3 +10,21 @@
 .force-nico-font {
   font-family: 'Nico Moji Local', sans-serif !important;
 }
+
+/* --- Custom Dark Dashboard Scrollbar --- */
+::-webkit-scrollbar {
+  width: 8px; /* Thickness of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #04070C; /* Exact match to your background color */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1F2937; /* A subtle dark gray thumb */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #374151; /* Turns slightly lighter gray when you hover */
+}
