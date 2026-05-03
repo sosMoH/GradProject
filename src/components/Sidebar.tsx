@@ -24,7 +24,7 @@ const Sidebar: React.FC = () => {
       
       {/* Logo - Hidden on mobile */}
       <div className="hidden md:block text-[70px] force-nico-font leading-none text-center mb-8 text-[#CEE0CE]">
-        P
+        M
       </div>
 
       {/* Navigation - Row on mobile, Column on desktop */}
