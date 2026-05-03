@@ -42,7 +42,7 @@ const Sidebar: React.FC = () => {
               {isActive && (
                 <motion.div
                   layoutId="active-indicator"
-                  className="absolute top-0 md:top-1/2 left-1/2 md:left-0 -translate-x-1/2 md:-translate-x-0 md:-translate-y-1/2 w-22 h-[4px] md:w-[4px] md:h-[46px] bg-white rounded-b-md md:rounded-bl-none md:rounded-r-md"
+                  className="absolute top-0 md:top-1/2 left-1/2 md:left-0 -translate-x-1/2 md:-translate-x-0 md:-translate-y-1/2 w-22 h-[4px] md:w-[3px] md:h-[60px] bg-white rounded-b-md md:rounded-bl-none md:rounded-r-md"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
@@ -50,7 +50,7 @@ const Sidebar: React.FC = () => {
               <img
                 src={item.icon}
                 alt={`${item.id} icon`}
-                className={`w-6 h-6 md:w-8 md:h-8 object-contain transition-opacity ${
+                className={`w-6 h-6 md:w-13 md:h-13 object-contain transition-opacity ${
                   isActive ? "opacity-100" : "opacity-60"
                 }`}
               />

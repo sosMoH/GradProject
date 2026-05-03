@@ -151,7 +151,6 @@ const GaugeCard = ({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            // Anchored beautifully to the bottom of the card, dropping downward
             className="absolute top-[calc(100%-25px)] left-[-1px] right-[-1px] bg-[#0B0F14] border border-gray-500/50 rounded-[20px] p-5 shadow-2xl flex flex-col z-50"
           >
             {/* The little up-pointing triangle (Caret) */}
@@ -311,52 +310,53 @@ const OverviewPage: React.FC = () => {
                 </button>
               </div>
 
-              <div className="grid grid-cols-[2fr_2fr_1fr_1.5fr_1.5fr_1.5fr_1fr] gap-4 text-[#888888] font-semibold text-[20px] pb-4 border-b border-gray-500/25 text-center px-4">
-                <div className="text-left pl-2">location</div>
-                <div className="text-left">Time</div>
-                <div>AQI</div>
-                <div>PM2.5</div>
-                <div>CO₂</div>
-                <div>NO₂</div>
-                <div>Status</div>
-              </div>
-
-              <div className="flex flex-col overflow-y-auto">
-                {dummyAlarms.map((alarm, idx) => (
-                  <div
-                    key={idx}
-                    className="grid grid-cols-[2fr_2fr_1fr_1.5fr_1.5fr_1.5fr_1fr] gap-4 items-center py-6 text-white/90 text-[18px] border-b border-gray-500/10 text-center px-4"
-                  >
-                    <div className="flex items-center gap-4 text-left border-r border-gray-500/25">
-                      <img
-                        src={alarm.image}
-                        className="w-16 h-16 rounded-[10px] object-cover"
-                        alt="Location"
-                      />
-                      <span>{alarm.locationName}</span>
-                    </div>
-                    <div className="text-left font-mono border-r border-gray-500/25 pl-4">
-                      {alarm.time}
-                    </div>
-                    <div className="border-r border-gray-500/25">
-                      {alarm.aqi}
-                    </div>
-                    <div className="border-r border-gray-500/25">
-                      {alarm.pm25}
-                    </div>
-                    <div className="border-r border-gray-500/25">
-                      {alarm.co2}
-                    </div>
-                    <div className="border-r border-gray-500/25">
-                      {alarm.no2}
-                    </div>
-                    <div className="flex justify-center">
-                      <div
-                        className={`w-6 h-6 border rounded-sm ${expandedView === "solved" ? "bg-[#3E9479] border-[#3E9479]" : "border-gray-500"}`}
-                      />
-                    </div>
+              {/* --- SCROLLABLE TABLE WRAPPER FOR MOBILE --- */}
+              <div className="w-full overflow-x-auto pb-4">
+                <div className="min-w-[900px] flex flex-col">
+                  
+                  {/* Detailed Table Header */}
+                  <div className="grid grid-cols-[2fr_2fr_1fr_1.5fr_1.5fr_1.5fr_1fr] gap-4 text-[#888888] font-semibold text-[20px] pb-4 border-b border-gray-500/25 text-center px-4">
+                    <div className="text-left pl-2">location</div>
+                    <div className="text-left">Time</div>
+                    <div>AQI</div>
+                    <div>PM2.5</div>
+                    <div>CO₂</div>
+                    <div>NO₂</div>
+                    <div>Status</div>
                   </div>
-                ))}
+
+                  {/* Detailed Table Rows */}
+                  <div className="flex flex-col overflow-y-auto max-h-[40vh] md:max-h-[500px]">
+                    {dummyAlarms.map((alarm, idx) => (
+                      <div
+                        key={idx}
+                        className="grid grid-cols-[2fr_2fr_1fr_1.5fr_1.5fr_1.5fr_1fr] gap-4 items-center py-6 text-white/90 text-[18px] border-b border-gray-500/10 text-center px-4 hover:bg-white/5 transition-colors"
+                      >
+                        <div className="flex items-center gap-4 text-left border-r border-gray-500/25">
+                          <img
+                            src={alarm.image}
+                            className="w-16 h-16 rounded-[10px] object-cover flex-shrink-0"
+                            alt="Location"
+                          />
+                          <span className="whitespace-nowrap">{alarm.locationName}</span>
+                        </div>
+                        <div className="text-left font-mono border-r border-gray-500/25 pl-4 whitespace-nowrap">
+                          {alarm.time}
+                        </div>
+                        <div className="border-r border-gray-500/25">{alarm.aqi}</div>
+                        <div className="border-r border-gray-500/25">{alarm.pm25}</div>
+                        <div className="border-r border-gray-500/25">{alarm.co2}</div>
+                        <div className="border-r border-gray-500/25">{alarm.no2}</div>
+                        <div className="flex justify-center">
+                          <div
+                            className={`w-6 h-6 border rounded-sm flex-shrink-0 ${expandedView === "solved" ? "bg-[#3E9479] border-[#3E9479]" : "border-gray-500"}`}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                </div>
               </div>
 
               <div className="mt-auto flex flex-col items-center justify-center pt-8 opacity-40">
@@ -382,7 +382,7 @@ const OverviewPage: React.FC = () => {
       <main className="flex-1 flex flex-col w-full relative z-10">
         <Header
           title="AIR QUALITY MONITORING AND CONTROL"
-          dateColor="text-[#0A7C56]"
+          dateColor="text-white"
           bellColor="text-[#0A7C56]"
         />
 
