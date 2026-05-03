@@ -65,7 +65,7 @@ const FaqsPage: React.FC = () => {
       answer: "Sensor data is sent securely through Wi-Fi using the MQTT protocol to AWS IoT Core for cloud processing, storage, and alert management.",
     },
     {
-      question: "Who can use this system?",
+      question: "Who can we use this system?",
       answer: "The system is suitable for homes, laboratories, universities, offices, industrial zones, and other indoor environments where air quality and safety monitoring are important.",
     },
     {
