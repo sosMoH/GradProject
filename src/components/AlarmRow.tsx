@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 
 const AlarmRow = ({ id, time, type, pm25, isSolved, image, onToggle }: any) => (
