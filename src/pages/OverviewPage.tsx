@@ -28,6 +28,9 @@ const OverviewPage: React.FC = () => {
     "unsolved" | "solved" | null
   >(null);
 
+  // --- NEW: System Power State ---
+  const [isSystemOn, setIsSystemOn] = useState(true);
+
   // Hook for LIVE DATA
   const liveSensors = useSensorData();
 
@@ -84,13 +87,25 @@ const OverviewPage: React.FC = () => {
   const displayedExpandedAlarms =
     expandedView === "unsolved" ? unsolvedAlarms : solvedAlarms;
 
-  // STOP DEVICE HANDLER
-  const handleStopDevice = async () => {
-    if (!window.confirm("Are you sure you want to stop the system?")) return;
+  // --- UPDATED: TOGGLE DEVICE HANDLER ---
+  const handleToggleSystem = async () => {
+    const actionText = isSystemOn ? "stop" : "start";
+    const commandPayload = isSystemOn ? "STOP_IONIZER" : "START_IONIZER";
+
+    if (!window.confirm(`Are you sure you want to ${actionText} the system?`))
+      return;
+
     try {
-      alert("Stop command sent successfully to IoT Core!");
+      // In reality, you'd send `commandPayload` to your AWS API here.
+      // await fetch("YOUR_API", { method: "POST", body: JSON.stringify({ command: commandPayload }) });
+
+      alert(`System ${isSystemOn ? "stopped" : "started"} successfully!`);
+
+      // Flip the UI state
+      setIsSystemOn(!isSystemOn);
     } catch (error) {
       console.error(error);
+      alert("Network error.");
     }
   };
 
@@ -119,12 +134,20 @@ const OverviewPage: React.FC = () => {
           <section className="relative z-20">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
               <h2 className="text-[32px] text-[#0A7C56]">Latest status</h2>
+
+              {/* --- UPDATED: DYNAMIC POWER BUTTON --- */}
               <button
-                onClick={handleStopDevice}
-                className="flex items-center gap-2 bg-[#993737]/20 border border-[#993737] text-[#ff6b6b] px-5 py-2.5 rounded-[12px] hover:bg-[#993737] hover:text-white transition-all shadow-[0_0_15px_rgba(153,55,55,0.3)]"
+                onClick={handleToggleSystem}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-[12px] transition-all duration-300 shadow-lg ${
+                  isSystemOn
+                    ? "bg-[#993737]/20 border border-[#993737] text-[#ff6b6b] hover:bg-[#993737] hover:text-white shadow-[0_0_15px_rgba(153,55,55,0.3)]" // RED STATE (Running, click to stop)
+                    : "bg-[#3E9479]/20 border border-[#3E9479] text-[#A7F3D0] hover:bg-[#3E9479] hover:text-white shadow-[0_0_15px_rgba(62,148,121,0.3)]" // GREEN STATE (Stopped, click to start)
+                }`}
               >
                 <Power size={18} />
-                <span className="font-semibold tracking-wide">Stop System</span>
+                <span className="font-semibold tracking-wide">
+                  {isSystemOn ? "Stop System" : "Start System"}
+                </span>
               </button>
             </div>
 
