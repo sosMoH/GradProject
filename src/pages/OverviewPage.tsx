@@ -90,7 +90,7 @@ const OverviewPage: React.FC = () => {
   // --- UPDATED: TOGGLE DEVICE HANDLER ---
   const handleToggleSystem = async () => {
     const actionText = isSystemOn ? "stop" : "start";
-    const commandPayload = isSystemOn ? "STOP_IONIZER" : "START_IONIZER";
+    // const commandPayload = isSystemOn ? "STOP_IONIZER" : "START_IONIZER";
 
     if (!window.confirm(`Are you sure you want to ${actionText} the system?`))
       return;
