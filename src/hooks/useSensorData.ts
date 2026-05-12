@@ -12,7 +12,7 @@ export const useSensorData = (isSystemOn: boolean = true) => {
   const [data, setData] = useState<SensorData>({
     aqi: 153,
     pm25: 143,
-    co2: 1500,
+    co2: 250,
     no2: 100,
   });
 
@@ -25,7 +25,7 @@ export const useSensorData = (isSystemOn: boolean = true) => {
       setData((prev) => ({
         aqi: Math.max(0, prev.aqi + Math.floor(Math.random() * 11) - 5),
         pm25: Math.max(0, prev.pm25 + Math.floor(Math.random() * 7) - 3),
-        co2: Math.max(400, prev.co2 + Math.floor(Math.random() * 41) - 20),
+        co2: Math.max(0, prev.co2 + Math.floor(Math.random() * 41) - 20),
         no2: Math.max(0, prev.no2 + Math.floor(Math.random() * 5) - 2),
       }));
     }, 3000);

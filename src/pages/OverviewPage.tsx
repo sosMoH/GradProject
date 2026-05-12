@@ -46,7 +46,7 @@ const OverviewPage: React.FC = () => {
       id: 2,
       locationName: "Garden",
       time: "2026-05-02 18:33",
-      type: "CO2",
+      type: "CO₂",
       aqi: "110",
       pm25: "30µg/m³",
       co2: "1224ppm",
@@ -156,7 +156,7 @@ const OverviewPage: React.FC = () => {
                 title="CO₂"
                 value={liveSensors.co2}
                 unit="ppm"
-                percentage={isSystemOn ? liveSensors.co2 / 5000 : 0}
+                percentage={isSystemOn ? liveSensors.co2 / 500 : 0}
                 safeLevelData={co2SafeLevel}
                 isSystemOn={isSystemOn}
               />
