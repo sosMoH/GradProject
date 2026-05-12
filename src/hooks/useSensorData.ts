@@ -26,7 +26,7 @@ export const useSensorData = () => {
         co2: Math.max(400, prev.co2 + Math.floor(Math.random() * 41) - 20),   // Fluctuates +/- 20
         no2: Math.max(0, prev.no2 + Math.floor(Math.random() * 5) - 2),       // Fluctuates +/- 2
       }));
-    }, 3000);
+    }, 500);
 
     return () => clearInterval(interval);
 
