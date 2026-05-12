@@ -1,17 +1,42 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { HelpCircle, XCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// --- NEW: Helper function to calculate the color based on the value! ---
+const getDynamicColor = (val: number, safeData: any) => {
+  if (typeof val !== "number" || isNaN(val)) return "#4B5563"; // Fallback safety color
+
+  for (const range of safeData.ranges) {
+    // Splits the string "0-50" or "0–50" into an array [0, 50]
+    const bounds = range.value.split(/[-–]/);
+    const min = parseInt(bounds[0], 10);
+    const max = bounds.length > 1 ? parseInt(bounds[1], 10) : Infinity;
+
+    // If the value falls in this range, return this specific color!
+    if (val >= min && val <= max) {
+      return range.color;
+    }
+  }
+  // If it goes above the highest max (Hazardous), return the final color
+  return safeData.ranges[safeData.ranges.length - 1].color;
+};
+
+// Added 'isSystemOn' to the props
 const GaugeCard = ({
   title,
   value,
   unit,
-  color,
   percentage,
-  textColor,
   safeLevelData,
+  isSystemOn,
 }: any) => {
   const [isTooltipOpen, setIsTooltipOpen] = useState(false);
+
+  // --- NEW: Get the exact color dynamically! ---
+  // If the system is OFF, it turns grey. If ON, it calculates the color.
+  const activeColor = isSystemOn
+    ? getDynamicColor(value, safeLevelData)
+    : "#4B5563";
 
   const safePercentage = Math.min(Math.max(percentage, 0), 1);
   const arcLength = 314.16;
@@ -38,10 +63,12 @@ const GaugeCard = ({
             strokeWidth="20"
             strokeLinecap="round"
           />
+
+          {/* We now pass activeColor to the SVG stroke */}
           <path
             d="M 35 137.5 A 75 75 0 1 1 165 137.5"
             fill="none"
-            stroke={color}
+            stroke={activeColor}
             strokeWidth="20"
             strokeLinecap="round"
             strokeDasharray={arcLength}
@@ -56,9 +83,10 @@ const GaugeCard = ({
           </g>
         </svg>
         <div className="absolute top-[42%] flex flex-col items-center">
+          {/* We now pass activeColor to the text color */}
           <span
             className="text-[32px] font-semibold leading-none transition-all duration-1000"
-            style={{ color: textColor }}
+            style={{ color: activeColor }}
           >
             {value}
           </span>

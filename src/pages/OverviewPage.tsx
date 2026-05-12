@@ -5,12 +5,10 @@ import { ChevronRight, ChevronLeft, ChevronDown, Power } from "lucide-react";
 import Header, { getFormattedDate } from "../components/Header";
 import { useSensorData } from "../hooks/useSensorData";
 
-// --- IMPORT YOUR NEW COMPONENTS ---
 import GaugeCard from "../components/GaugeCard";
 import AlarmRow from "../components/AlarmRow";
 import ExpandedAlarmsModal from "../components/ExpandedAlarmsModal";
 
-// --- IMPORT YOUR DATA CONFIG ---
 import {
   aqiSafeLevel,
   pm25SafeLevel,
@@ -18,7 +16,6 @@ import {
   no2SafeLevel,
 } from "../data/safeLevels";
 
-// --- IMPORT LOCAL IMAGES ---
 import imgRoom from "../assets/alarms_locations/bedroom.png";
 import imgGarden from "../assets/alarms_locations/garden.png";
 import imgRoof from "../assets/alarms_locations/roof.png";
@@ -27,14 +24,11 @@ const OverviewPage: React.FC = () => {
   const [expandedView, setExpandedView] = useState<
     "unsolved" | "solved" | null
   >(null);
-
-  // --- NEW: System Power State ---
   const [isSystemOn, setIsSystemOn] = useState(true);
 
-  // Hook for LIVE DATA
-  const liveSensors = useSensorData();
+  // Hook for LIVE DATA (Freezes automatically when isSystemOn is false)
+  const liveSensors = useSensorData(isSystemOn);
 
-  // ALARM STATE
   const [alarms, setAlarms] = useState([
     {
       id: 1,
@@ -87,31 +81,22 @@ const OverviewPage: React.FC = () => {
   const displayedExpandedAlarms =
     expandedView === "unsolved" ? unsolvedAlarms : solvedAlarms;
 
-  // --- UPDATED: TOGGLE DEVICE HANDLER ---
   const handleToggleSystem = async () => {
     const actionText = isSystemOn ? "stop" : "start";
-    // const commandPayload = isSystemOn ? "STOP_IONIZER" : "START_IONIZER";
 
     if (!window.confirm(`Are you sure you want to ${actionText} the system?`))
       return;
 
     try {
-      // In reality, you'd send `commandPayload` to your AWS API here.
-      // await fetch("YOUR_API", { method: "POST", body: JSON.stringify({ command: commandPayload }) });
-
       alert(`System ${isSystemOn ? "stopped" : "started"} successfully!`);
-
-      // Flip the UI state
       setIsSystemOn(!isSystemOn);
     } catch (error) {
       console.error(error);
-      alert("Network error.");
     }
   };
 
   return (
     <div className="relative w-full min-h-full bg-[#04070C] font-sans flex flex-col pb-[70px] md:pb-0 overflow-x-hidden">
-      {/* EXTRACTED MODAL POPUP */}
       <AnimatePresence>
         {expandedView && (
           <ExpandedAlarmsModal
@@ -135,13 +120,12 @@ const OverviewPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
               <h2 className="text-[32px] text-[#0A7C56]">Latest status</h2>
 
-              {/* --- UPDATED: DYNAMIC POWER BUTTON --- */}
               <button
                 onClick={handleToggleSystem}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-[12px] transition-all duration-300 shadow-lg ${
                   isSystemOn
-                    ? "bg-[#993737]/20 border border-[#993737] text-[#ff6b6b] hover:bg-[#993737] hover:text-white shadow-[0_0_15px_rgba(153,55,55,0.3)]" // RED STATE (Running, click to stop)
-                    : "bg-[#3E9479]/20 border border-[#3E9479] text-[#A7F3D0] hover:bg-[#3E9479] hover:text-white shadow-[0_0_15px_rgba(62,148,121,0.3)]" // GREEN STATE (Stopped, click to start)
+                    ? "bg-[#993737]/20 border border-[#993737] text-[#ff6b6b] hover:bg-[#993737] hover:text-white shadow-[0_0_15px_rgba(153,55,55,0.3)]"
+                    : "bg-[#3E9479]/20 border border-[#3E9479] text-[#A7F3D0] hover:bg-[#3E9479] hover:text-white shadow-[0_0_15px_rgba(62,148,121,0.3)]"
                 }`}
               >
                 <Power size={18} />
@@ -156,37 +140,33 @@ const OverviewPage: React.FC = () => {
                 title="AQI"
                 value={liveSensors.aqi}
                 unit=""
-                color="#FF8B16"
-                textColor="#FF8B16"
-                percentage={liveSensors.aqi / 500}
+                percentage={isSystemOn ? liveSensors.aqi / 500 : 0}
                 safeLevelData={aqiSafeLevel}
+                isSystemOn={isSystemOn}
               />
               <GaugeCard
                 title="PM2.5"
                 value={liveSensors.pm25}
                 unit="µg/m³"
-                color="#9C0D0D"
-                textColor="#9C0D0D"
-                percentage={liveSensors.pm25 / 500}
+                percentage={isSystemOn ? liveSensors.pm25 / 500 : 0}
                 safeLevelData={pm25SafeLevel}
+                isSystemOn={isSystemOn}
               />
               <GaugeCard
                 title="CO₂"
                 value={liveSensors.co2}
                 unit="ppm"
-                color="#FF8B16"
-                textColor="#FF8D28"
-                percentage={liveSensors.co2 / 5000}
+                percentage={isSystemOn ? liveSensors.co2 / 5000 : 0}
                 safeLevelData={co2SafeLevel}
+                isSystemOn={isSystemOn}
               />
               <GaugeCard
                 title="NO₂"
                 value={liveSensors.no2}
                 unit="ppb"
-                color="#FF8B16"
-                textColor="#FF8D28"
-                percentage={liveSensors.no2 / 500}
+                percentage={isSystemOn ? liveSensors.no2 / 500 : 0}
                 safeLevelData={no2SafeLevel}
+                isSystemOn={isSystemOn}
               />
             </div>
           </section>
