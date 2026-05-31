@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Bell, ChevronDown, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// --- SECTION: Interfaces & Helpers ---
-// Added "?" to make these optional so other pages don't crash when navigating!
 interface HeaderProps {
   title: string;
   dateColor?: string;
@@ -41,7 +39,6 @@ const Header: React.FC<HeaderProps> = ({
   title,
   dateColor = "text-white",
   bellColor = "text-white",
-  // Default fallbacks added here so other pages don't crash:
   lang = "en",
   setLang = () => {}, 
   currentDate = new Date(),
@@ -51,20 +48,17 @@ const Header: React.FC<HeaderProps> = ({
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const [alertIndex, setAlertIndex] = useState(0);
 
-  // --- SECTION: Cube Curtain Animation Logic ---
   useEffect(() => {
-    // Only rotate if there is MORE than 1 alert
     if (activeAlerts.length > 1) {
       const interval = setInterval(() => {
         setAlertIndex((prev) => (prev + 1) % activeAlerts.length);
-      }, 3000); // Change text every 3 seconds
+      }, 3000); 
       return () => clearInterval(interval);
     } else {
-      setAlertIndex(0); // Reset to first if it drops to 1
+      setAlertIndex(0); 
     }
   }, [activeAlerts.length]);
 
-  // Fallback string if translation is missing on other pages
   const getAlertMessage = () => {
     const translated = t("headerAlert");
     return translated === "headerAlert" ? "concentration has reached hazardous levels!" : translated;
@@ -73,59 +67,59 @@ const Header: React.FC<HeaderProps> = ({
   const currentIndex = alertIndex >= activeAlerts.length ? 0 : alertIndex;
 
   return (
-    <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-6 px-6 md:pt-8 md:pr-12 md:pl-8 gap-4 sm:gap-0 relative z-50">
+    // Adjusted padding for mobile
+    <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center pt-6 px-4 sm:px-6 md:pt-8 md:pr-12 md:pl-8 gap-4 sm:gap-0 relative z-50">
       
-      {/* --- SECTION: Title & Alerts Area --- */}
-      <div className="w-full sm:w-2/3 overflow-hidden h-[50px] flex flex-col justify-center">
+      {/* Removed the fixed h-[50px] and overflow-hidden that was clipping the title */}
+      <div className="w-full sm:w-2/3 flex flex-col justify-center min-h-[50px]">
         <AnimatePresence mode="wait">
           {activeAlerts.length > 0 ? (
             
-            // HAZARDOUS ALERT (Cube Curtain Effect)
             <motion.div
               key="alert-header"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="flex items-center gap-3 text-[#ff6b6b] w-full"
+              className="flex items-start sm:items-center gap-2 sm:gap-3 text-[#ff6b6b] w-full"
             >
-              {/* Blinking Icon */}
-              <AlertCircle className="min-w-[24px] min-h-[24px] animate-pulse" />
+              <AlertCircle className="min-w-[20px] min-h-[20px] sm:min-w-[24px] sm:min-h-[24px] animate-pulse mt-0.5 sm:mt-0 flex-shrink-0" />
               
-              <div className="flex items-center gap-1 overflow-hidden h-8 font-semibold tracking-wide text-sm md:text-base">
-                {/* 3D Rolling Text (Sensor Name) */}
-                <AnimatePresence mode="popLayout">
-                  <motion.div
-                    key={activeAlerts[currentIndex]}
-                    initial={{ opacity: 0, y: 25, rotateX: -90 }}
-                    animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                    exit={{ opacity: 0, y: -25, rotateX: 90 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                    style={{ transformStyle: "preserve-3d", transformOrigin: "center center" }}
-                    className="font-bold whitespace-nowrap"
-                  >
-                    {activeAlerts[currentIndex]}
-                  </motion.div>
-                </AnimatePresence>
+              {/* Only apply overflow-hidden to this specific text row, allowing it to wrap if necessary */}
+              <div className="flex flex-wrap sm:flex-nowrap items-center gap-1 font-semibold tracking-wide text-xs sm:text-sm md:text-base leading-snug">
+                <div className="relative h-5 sm:h-6 overflow-hidden min-w-[50px]">
+                  <AnimatePresence mode="popLayout">
+                    <motion.div
+                      key={activeAlerts[currentIndex]}
+                      initial={{ opacity: 0, y: 20, rotateX: -90 }}
+                      animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                      exit={{ opacity: 0, y: -20, rotateX: 90 }}
+                      transition={{ duration: 0.4, ease: "easeInOut" }}
+                      style={{ transformStyle: "preserve-3d", transformOrigin: "center center" }}
+                      className="font-bold whitespace-nowrap absolute"
+                    >
+                      {activeAlerts[currentIndex]}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
                 
-                {/* Static Alert Message */}
-                <span className="whitespace-nowrap ml-1">
+                <span>
                   {getAlertMessage()}
                 </span>
               </div>
             </motion.div>
 
           ) : (
-            // NORMAL HEADER TITLE
             <motion.div
               key="normal-header"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
             >
-              <h1 className="text-lg md:text-[20px] tracking-wider font-semibold leading-tight text-white uppercase">
+              {/* Adjusted text sizing for mobile */}
+              <h1 className="text-base sm:text-lg md:text-[20px] tracking-wider font-semibold leading-snug text-white uppercase break-words">
                 {title}
               </h1>
-              <p className={`text-xs md:text-sm mt-1 ${dateColor}`}>
+              <p className={`text-xs md:text-sm mt-1 sm:mt-1 ${dateColor}`}>
                 {getFormattedDate(currentDate, lang)}
               </p>
             </motion.div>
@@ -133,13 +127,11 @@ const Header: React.FC<HeaderProps> = ({
         </AnimatePresence>
       </div>
 
-      {/* --- SECTION: Controls (Language & Bell) --- */}
-      <div className="flex items-center gap-4 md:gap-6 self-end sm:self-auto relative">
-        
+      <div className="flex items-center gap-4 md:gap-6 self-end sm:self-auto relative w-full sm:w-auto justify-end">
         <div className="relative">
           <button
             onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-            className="bg-[#0B0F14]/50 border border-gray-500/25 text-white pl-2 pr-4 py-1.5 rounded-full flex items-center gap-2 hover:bg-gray-800 transition-colors"
+            className="bg-[#0B0F14]/50 border border-gray-500/25 text-white pl-2 pr-3 sm:pr-4 py-1.5 rounded-full flex items-center gap-2 hover:bg-gray-800 transition-colors"
           >
             <div className="w-5 h-5 md:w-6 md:h-6 rounded-full overflow-hidden flex-shrink-0 bg-gray-100">
               <img
@@ -148,32 +140,22 @@ const Header: React.FC<HeaderProps> = ({
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="text-sm font-semibold">{lang === "en" ? "Eng(US)" : "العربية"}</span>
+            <span className="text-xs sm:text-sm font-semibold">{lang === "en" ? "Eng(US)" : "العربية"}</span>
             <ChevronDown size={14} className="md:w-4 md:h-4 text-gray-400" />
           </button>
 
           {isLangMenuOpen && (
-            <div className="absolute top-full mt-2 w-full bg-[#0B0F14] border border-gray-500/25 rounded-xl overflow-hidden shadow-lg z-50">
-              <button
-                onClick={() => { setLang("en"); setIsLangMenuOpen(false); }}
-                className="w-full text-left px-4 py-2 text-sm text-white hover:bg-white/10 flex items-center gap-2"
-              >
-                English
-              </button>
-              <button
-                onClick={() => { setLang("ar"); setIsLangMenuOpen(false); }}
-                className="w-full text-left px-4 py-2 text-sm text-white hover:bg-white/10 flex items-center gap-2"
-              >
-                العربية
-              </button>
+            <div className="absolute top-full mt-2 right-0 w-[120px] sm:w-full bg-[#0B0F14] border border-gray-500/25 rounded-xl overflow-hidden shadow-lg z-50">
+              <button onClick={() => { setLang("en"); setIsLangMenuOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-white hover:bg-white/10">English</button>
+              <button onClick={() => { setLang("ar"); setIsLangMenuOpen(false); }} className="w-full text-left px-4 py-2 text-sm text-white hover:bg-white/10">العربية</button>
             </div>
           )}
         </div>
 
         <div className={`relative cursor-pointer ${bellColor}`}>
-          <Bell size={24} className="md:w-7 md:h-7" />
+          <Bell size={22} className="sm:w-7 sm:h-7" />
           {activeAlerts.length > 0 && (
-            <span className="absolute top-0 right-0 w-2.5 h-2.5 md:w-3 md:h-3 bg-[#9C0D0D] rounded-full border-2 border-[#04070C] animate-pulse" />
+            <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-[#9C0D0D] rounded-full border-2 border-[#04070C] animate-pulse" />
           )}
         </div>
       </div>
