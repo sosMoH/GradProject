@@ -46,7 +46,7 @@ export const no2SafeLevel = {
     { label: "Good:", value: "0–21", color: "#00E400" },
     { label: "Moderate:", value: "22–53", color: "#FFFF00" },
     { label: "Unhealthy:", value: "101–360", color: "#FF0000" },
-    { label: "Very Unhealthy:", value: "361–649", color: "#8F3F97" },
-    { label: "Hazardous:", value: "650–500", color: "#7E0023" },
+    { label: "Very Unhealthy:", value: "361–500", color: "#8F3F97" },
+    { label: "Hazardous:", value: "501–650", color: "#7E0023" },
   ],
 };
